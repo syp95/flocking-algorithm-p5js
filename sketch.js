@@ -1,9 +1,11 @@
 let flock;
+let predator;
 
 function setup() {
     createCanvas(1000, 800);
 
     flock = new Flock();
+    predator = new Predator(width / 2, height / 2);
     // 시스템에 초기 개체(boid) 더하기
     for (let i = 0; i < 100; i++) {
         let b = new Boid(width / 2, height / 2);
@@ -14,6 +16,7 @@ function setup() {
 function draw() {
     background(51);
     flock.run();
+    predator.run();
 }
 
 // The Nature of Code
@@ -44,6 +47,35 @@ Flock.prototype.addBoid = function (b) {
 
 // Boid(개체) 클래스
 // 응집(cohesion), 분리(seperation), 정렬(alignment)을 위한 메소드 추가
+
+function Predator(x, y) {
+    this.acceleration = createVector(0, 0);
+    this.velocity = createVector(random(-1, 1), random(-1, 1));
+    this.position = createVector(x, y);
+    this.r = 3.0;
+    this.maxspeed = 2; // 최대 속도
+    this.maxforce = 0.1; // 최대 조타력
+}
+
+Predator.prototype.run = function () {
+    this.render();
+};
+
+Predator.prototype.render = function () {
+    // 속도의 방향에 따라 회전하는 삼각형 그리기
+    let theta = this.velocity.heading() + radians(90);
+    fill(0);
+    stroke(200);
+    push();
+    translate(this.position.x, this.position.y);
+    rotate(theta);
+    beginShape();
+    vertex(0, -this.r * 3);
+    vertex(-this.r * 3, this.r * 10);
+    vertex(this.r * 3, this.r * 10);
+    endShape(CLOSE);
+    pop();
+};
 
 function Boid(x, y) {
     this.acceleration = createVector(0, 0);
