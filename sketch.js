@@ -16,11 +16,6 @@ function draw() {
     flock.run();
 }
 
-// 시스템에 새로운 개체 더하기
-function mouseDragged() {
-    flock.addBoid(new Boid(mouseX, mouseY));
-}
-
 // The Nature of Code
 // 다니엘 쉬프만(Daniel Shiffman)
 // http://natureofcode.com
@@ -113,15 +108,15 @@ Boid.prototype.seek = function (target) {
 Boid.prototype.render = function () {
     // 속도의 방향에 따라 회전하는 삼각형 그리기
     let theta = this.velocity.heading() + radians(90);
-    fill(127);
+    fill(100);
     stroke(200);
     push();
     translate(this.position.x, this.position.y);
     rotate(theta);
     beginShape();
-    vertex(0, -this.r * 2);
-    vertex(-this.r, this.r * 2);
-    vertex(this.r, this.r * 2);
+    vertex(0, -this.r * 3);
+    vertex(-this.r * 1.5, this.r * 3);
+    vertex(this.r * 1.5, this.r * 3);
     endShape(CLOSE);
     pop();
 };
